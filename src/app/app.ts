@@ -145,15 +145,7 @@ export class AppComponent implements OnInit {
 
   addTaskFromSearch() {
     if (this.searchText.trim()) {
-      const newTask: Task = {
-        id: Date.now(),
-        title: this.searchText.trim(),
-        description: '',
-        status: 'todo'
-      };
-      this.allTasks.push(newTask);
-      this.searchText = '';
-      this.updateFilteredTasks();
+      this.filterTasks();
     }
   }
 
