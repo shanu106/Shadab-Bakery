@@ -8,6 +8,7 @@ export interface Task {
   title: string;
   description: string;
   status: 'todo' | 'inprogress' | 'done';
+  priority: 'low' | 'medium' | 'high';
 }
 
 @Component({
@@ -34,7 +35,8 @@ export class AppComponent implements OnInit {
     id: 0,
     title: '',
     description: '',
-    status: 'todo'
+    status: 'todo',
+    priority: 'medium'
   };
 
   constructor(private cdr: ChangeDetectorRef, private renderer: Renderer2) {}
@@ -50,12 +52,12 @@ export class AppComponent implements OnInit {
     }
 
     this.allTasks = [
-      { id: 1, title: 'Setup Angular Project', description: 'Initialize the Angular project with CDK', status: 'done' },
-      { id: 2, title: 'Create Kanban Board', description: 'Design the UI for the Kanban board', status: 'inprogress' },
-      { id: 3, title: 'Implement Drag & Drop', description: 'Add drag and drop functionality using Angular CDK', status: 'inprogress' },
-      { id: 4, title: 'Add Task Modal', description: 'Create modal for adding and editing tasks', status: 'todo' },
-      { id: 5, title: 'Style Components', description: 'Apply modern CSS styling to the board', status: 'todo' },
-      { id: 6, title: 'Test Functionality', description: 'Test drag and drop between all columns', status: 'todo' }
+      { id: 1, title: 'Setup Angular Project', description: 'Initialize the Angular project with CDK', status: 'done', priority: 'high' },
+      { id: 2, title: 'Create Kanban Board', description: 'Design the UI for the Kanban board', status: 'inprogress', priority: 'high' },
+      { id: 3, title: 'Implement Drag & Drop', description: 'Add drag and drop functionality using Angular CDK', status: 'inprogress', priority: 'medium' },
+      { id: 4, title: 'Add Task Modal', description: 'Create modal for adding and editing tasks', status: 'todo', priority: 'medium' },
+      { id: 5, title: 'Style Components', description: 'Apply modern CSS styling to the board', status: 'todo', priority: 'low' },
+      { id: 6, title: 'Test Functionality', description: 'Test drag and drop between all columns', status: 'todo', priority: 'high' }
     ];
     this.updateFilteredTasks();
   }
@@ -79,7 +81,7 @@ export class AppComponent implements OnInit {
 
   openAddTaskModal() {
     this.isEditMode = false;
-    this.taskForm = { id: 0, title: '', description: '', status: 'todo' };
+    this.taskForm = { id: 0, title: '', description: '', status: 'todo', priority: 'medium' };
     this.showTaskModal = true;
   }
 
@@ -186,5 +188,21 @@ export class AppComponent implements OnInit {
   moveToTodo(task: Task) {
     task.status = 'todo';
     this.updateFilteredTasks();
+  }
+
+  getToDoCount(): number {
+    return this.allTasks.filter(t => t.status === 'todo').length;
+  }
+
+  getInProgressCount(): number {
+    return this.allTasks.filter(t => t.status === 'inprogress').length;
+  }
+
+  getDoneCount(): number {
+    return this.allTasks.filter(t => t.status === 'done').length;
+  }
+
+  getTotalCount(): number {
+    return this.allTasks.length;
   }
 }

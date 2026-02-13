@@ -51,7 +51,10 @@
            cdkDrag
            [cdkDragData]="task">
 
-        <h4>{{task.title}}</h4>
+        <div class="task-header">
+          <h4>{{task.title}}</h4>
+          <span class="priority-badge" [class]="'priority-' + task.priority">{{task.priority}}</span>
+        </div>
         <p>{{task.description}}</p>
         <div class="task-actions">
           <button (click)="moveToInProgress(task)" class="move-btn" title="Move to In Progress">→</button>
@@ -77,7 +80,10 @@
            cdkDrag
            [cdkDragData]="task">
 
-        <h4>{{task.title}}</h4>
+        <div class="task-header">
+          <h4>{{task.title}}</h4>
+          <span class="priority-badge" [class]="'priority-' + task.priority">{{task.priority}}</span>
+        </div>
         <p>{{task.description}}</p>
         <div class="task-actions">
           <button (click)="moveToTodo(task)" class="move-btn" title="Move to Todo">←</button>
@@ -104,7 +110,10 @@
            cdkDrag
            [cdkDragData]="task">
 
-        <h4>{{task.title}}</h4>
+        <div class="task-header">
+          <h4>{{task.title}}</h4>
+          <span class="priority-badge" [class]="'priority-' + task.priority">{{task.priority}}</span>
+        </div>
         <p>{{task.description}}</p>
         <div class="task-actions">
           <button (click)="moveToInProgress(task)" class="move-btn" title="Move to In Progress">←</button>
@@ -113,6 +122,26 @@
         </div>
 
       </div>
+    </div>
+  </div>
+
+  <!-- Task Statistics Footer -->
+  <div class="task-stats-footer">
+    <div class="stat-item">
+      <span class="stat-label">To Do:</span>
+      <span class="stat-count">{{ getToDoCount() }}</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">In Progress:</span>
+      <span class="stat-count">{{ getInProgressCount() }}</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Done:</span>
+      <span class="stat-count">{{ getDoneCount() }}</span>
+    </div>
+    <div class="stat-item total">
+      <span class="stat-label">Total:</span>
+      <span class="stat-count">{{ getTotalCount() }}</span>
     </div>
   </div>
 </div>
@@ -128,6 +157,12 @@
       <option value="todo">To Do</option>
       <option value="inprogress">In Progress</option>
       <option value="done">Done</option>
+    </select>
+
+    <select [(ngModel)]="taskForm.priority">
+      <option value="low">Low Priority</option>
+      <option value="medium">Medium Priority</option>
+      <option value="high">High Priority</option>
     </select>
 
     <button (click)="saveTask()">Save</button>
