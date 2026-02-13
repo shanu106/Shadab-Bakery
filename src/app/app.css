@@ -21,57 +21,182 @@
 /* Mobile Header */
 @media (max-width: 768px) {
   .app-header {
-    padding: 16px 16px;
+    padding: 10px 8px;
     min-height: auto;
+    background: rgb(253, 249, 251);
   }
 
   .header-content {
-    flex-direction: column;
-    gap: 16px;
-    align-items: stretch;
-    justify-content: center;
+    gap: 6px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
   }
 
   .page-title {
-    text-align: center;
-    font-size: 2rem;
+    text-align: left;
+    font-size: 1rem;
     position: relative;
     left: 0;
     margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+    font-weight: 600;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 32px;
+    line-height: 32px;
+  }
+
+  .title-text {
+    display: none !important;
+  }
+
+  .logo {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-left: 8px;
   }
 
   .search-wrapper {
-    order: 2;
-    width: 100%;
+    flex: 1;
+    min-width: 100px;
+    max-width: 150px;
+    order: 0;
+    display: flex;
+    align-items: center;
   }
 
   .search-container {
     max-width: none;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .search-input {
+    padding: 4px 8px;
+    font-size: 12px;
+    height: 32px;
+    line-height: 32px;
   }
 
   .action-buttons {
-    order: 3;
-    justify-content: center;
+    display: flex;
+    gap: 4px;
+    justify-content: flex-end;
     position: static;
     transform: none;
+    flex-shrink: 0;
+  }
+
+  .add-task-btn {
+    padding: 4px 6px;
+    font-size: 12px;
+    height: 32px;
+    min-width: 32px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: 32px;
   }
 
   .theme-toggle {
-    order: 4;
+    width: 32px;
+    height: 32px;
+    min-height: 32px;
+    min-width: 32px;
     position: static;
     transform: none;
-    align-self: center;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
   }
 }
 
 /* Tablet Header */
 @media (min-width: 769px) and (max-width: 1024px) {
+  .app-header {
+    padding: 14px 20px;
+    min-height: auto;
+  }
+
   .header-content {
-    gap: 24px;
+    gap: 16px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   .page-title {
-    font-size: 2.25rem;
+    font-size: 1.8rem;
+    margin: 0;
+    text-align: left;
+    flex-shrink: 0;
+  }
+
+  .logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .search-wrapper {
+    flex: 1;
+    max-width: 320px;
+    order: 0;
+    min-width: 150px;
+  }
+
+  .search-container {
+    height: 40px;
+  }
+
+  .search-input {
+    padding: 8px 14px;
+    font-size: 14px;
+    height: 40px;
+  }
+
+  .action-buttons {
+    order: 0;
+    justify-content: flex-end;
+    position: static;
+    transform: none;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .add-task-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+    min-height: 40px;
+    white-space: nowrap;
+  }
+
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+    order: 0;
+    position: static;
+    transform: none;
+    flex-shrink: 0;
   }
 }
 
@@ -281,6 +406,15 @@
   max-width: 1200px;
   margin: 32px auto;
   padding: 0 32px;
+}
+
+/* Tablet/iPad Board */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .board {
+    gap: 20px;
+    padding: 0 24px;
+    margin: 28px auto;
+  }
 }
 
 /* Mobile Board */
@@ -630,6 +764,127 @@
     border-radius: 10px;
   }
 }
+
+/* Tablet/iPad Mini Styles (768px-1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Column optimizations for iPad */
+  .column {
+    min-height: 600px;
+    padding: 24px;
+  }
+
+  .column h3 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+
+  /* Task card improvements for touch/tablet */
+  .task-card {
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+
+  .task-card h4 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  .task-card p {
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+  }
+
+  .task-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Task actions with better spacing for touch */
+  .task-actions {
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .task-actions button {
+    padding: 8px 14px;
+    font-size: 13px;
+    min-height: 36px;
+  }
+
+  .move-btn {
+    padding: 8px 14px;
+    min-height: 36px;
+  }
+
+  .cross-btn {
+    padding: 8px 10px;
+    min-height: 36px;
+  }
+
+  /* Priority badge sizing */
+  .priority-badge {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+  }
+
+  /* Modal optimizations for iPad */
+  .modal-content {
+    width: 450px;
+    max-width: 85vw;
+    padding: 32px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+  }
+
+  .modal-content input,
+  .modal-content textarea,
+  .modal-content select {
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 15px;
+    min-height: 44px; /* Touch-friendly */
+  }
+
+  .modal-content button {
+    padding: 12px 28px;
+    font-size: 15px;
+    min-height: 44px; /* Touch-friendly */
+    margin-right: 12px;
+  }
+
+  /* Search bar improvements */
+  .search-container {
+    max-width: 400px;
+  }
+
+  .search-input {
+    padding: 12px 16px;
+    font-size: 15px;
+    min-height: 44px;
+  }
+
+  /* Button sizing for touch */
+  .add-task-btn {
+    padding: 12px 20px;
+    font-size: 14px;
+    min-height: 44px;
+  }
+
+  .btn {
+    padding: 12px 28px;
+    font-size: 15px;
+    min-height: 44px;
+  }
+
+  .theme-toggle {
+    width: 50px;
+    height: 50px;
+    min-height: 44px;
+  }
+}
 /* Dark Theme Styles */
 html.dark-theme {
   background-color: #1a1a1a;
@@ -862,6 +1117,32 @@ html.dark-theme .cdk-drop-list.cdk-drop-list-dragging {
 
   .stat-count {
     font-size: 1rem;
+  }
+}
+
+/* Tablet/iPad Mini Stats Footer */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .task-stats-footer {
+    gap: 28px;
+    padding: 20px 24px;
+    margin: 20px 24px 32px;
+    justify-content: center;
+  }
+
+  .stat-item {
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+  }
+
+  .stat-count {
+    font-size: 1.3rem;
   }
 }
 
