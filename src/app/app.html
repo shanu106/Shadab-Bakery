@@ -4,30 +4,26 @@
       <span class="logo">TT</span>
       Task-Track
     </h1>
-<!-- jjgvjg -->
-    <div class="search-container">
-      <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M21 21L16.5 16.5M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <input
-        type="text"
-        placeholder="Add Your Task Here......."
-        [(ngModel)]="searchText"
-        (input)="filterTasks()"
-        (keydown.enter)="addTaskFromSearch()"
-        class="search-input"
-      />
-      <button *ngIf="searchText.trim()" (click)="addTaskFromSearch()" class="add-task-btn">Add Task</button>
+
+    <div class="search-wrapper">
+      <div class="search-container">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 21L16.5 16.5M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <input
+          type="text"
+          placeholder="Add Your Task Here......."
+          [(ngModel)]="searchText"
+          (input)="filterTasks()"
+          (keydown.enter)="addTaskFromSearch()"
+          class="search-input"
+        />
+        <button *ngIf="searchText.trim()" (click)="addTaskFromSearch()" class="add-task-btn">Search</button>
+      </div>
     </div>
 
     <div class="action-buttons">
       <button class="btn new-btn" (click)="openAddTaskModal()">+ New Task</button>
-    </div>
-
-    <div class="view-buttons">
-      <button class="view-btn" [class.active]="currentView === 'laptop'" (click)="setView('laptop')">Laptop</button>
-      <button class="view-btn" [class.active]="currentView === 'tablet'" (click)="setView('tablet')">Tablet</button>
-      <button class="view-btn" [class.active]="currentView === 'mobile'" (click)="setView('mobile')">Mobile</button>
     </div>
 
     <button class="theme-toggle" (click)="toggleTheme()">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Renderer2, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DragDropModule, CdkDragDrop, transferArrayItem, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -14,7 +14,8 @@ export interface Task {
   selector: 'app-root',
   imports: [FormsModule, CommonModule, DragDropModule],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent implements OnInit {
   allTasks: Task[] = [];
@@ -24,6 +25,7 @@ export class AppComponent implements OnInit {
 
   searchText: string = '';
   currentView: string = 'laptop';
+  isDarkTheme: boolean = false;
 
   showTaskModal = false;
   isEditMode = false;
@@ -35,7 +37,18 @@ export class AppComponent implements OnInit {
     status: 'todo'
   };
 
+  constructor(private cdr: ChangeDetectorRef, private renderer: Renderer2) {}
+
   ngOnInit() {
+    // Load saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      this.renderer.addClass(document.documentElement, 'dark-theme');
+      this.isDarkTheme = true;
+    } else {
+      this.isDarkTheme = false;
+    }
+
     this.allTasks = [
       { id: 1, title: 'Setup Angular Project', description: 'Initialize the Angular project with CDK', status: 'done' },
       { id: 2, title: 'Create Kanban Board', description: 'Design the UI for the Kanban board', status: 'inprogress' },
@@ -128,7 +141,18 @@ export class AppComponent implements OnInit {
   }
 
   toggleTheme() {
-    document.body.classList.toggle('dark-theme');
+    console.log('Toggling theme. Current theme:', this.isDarkTheme ? 'dark' : 'light');
+    this.isDarkTheme = !this.isDarkTheme;
+    
+    if (this.isDarkTheme) {
+    document.documentElement.classList.toggle('dark-theme', true);
+      localStorage.setItem('theme', 'dark');
+    } else {
+     document.documentElement.classList.toggle('dark-theme', false); 
+      localStorage.setItem('theme', 'light');
+    }
+    
+    this.cdr.detectChanges();
   }
 
   deleteTask(task: Task) {
