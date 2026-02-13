@@ -1,0 +1,140 @@
+<header class="app-header">
+  <div class="header-content">
+    <h1 class="page-title">
+      <span class="logo">TT</span>
+      Task-Track
+    </h1>
+<!-- jjgvjg -->
+    <div class="search-container">
+      <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 21L16.5 16.5M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <input
+        type="text"
+        placeholder="Add Your Task Here......."
+        [(ngModel)]="searchText"
+        (input)="filterTasks()"
+        (keydown.enter)="addTaskFromSearch()"
+        class="search-input"
+      />
+      <button *ngIf="searchText.trim()" (click)="addTaskFromSearch()" class="add-task-btn">Add Task</button>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn new-btn" (click)="openAddTaskModal()">+ New Task</button>
+    </div>
+
+    <div class="view-buttons">
+      <button class="view-btn" [class.active]="currentView === 'laptop'" (click)="setView('laptop')">Laptop</button>
+      <button class="view-btn" [class.active]="currentView === 'tablet'" (click)="setView('tablet')">Tablet</button>
+      <button class="view-btn" [class.active]="currentView === 'mobile'" (click)="setView('mobile')">Mobile</button>
+    </div>
+
+    <button class="theme-toggle" (click)="toggleTheme()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<div class="app-wrapper" [ngClass]="currentView">
+  <div class="board">
+    <!-- TO DO -->
+    <div class="column"
+         id="todo-list"
+         cdkDropList
+         [cdkDropListData]="todoTasks"
+         [cdkDropListConnectedTo]="['inprogress-list','done-list']"
+         (cdkDropListDropped)="onDrop($event)">
+
+      <h3>To Do</h3>
+
+      <div *ngFor="let task of todoTasks"
+           class="task-card"
+           cdkDrag
+           [cdkDragData]="task">
+
+        <h4>{{task.title}}</h4>
+        <p>{{task.description}}</p>
+        <div class="task-actions">
+          <button (click)="moveToInProgress(task)" class="move-btn" title="Move to In Progress">→</button>
+          <button (click)="editTask(task)">Edit</button>
+          <button (click)="deleteTask(task)" class="cross-btn">✕</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- IN PROGRESS -->
+    <div class="column"
+         id="inprogress-list"
+         cdkDropList
+         [cdkDropListData]="inprogressTasks"
+         [cdkDropListConnectedTo]="['todo-list','done-list']"
+         (cdkDropListDropped)="onDrop($event)">
+
+      <h3>In Progress</h3>
+
+      <div *ngFor="let task of inprogressTasks"
+           class="task-card"
+           cdkDrag
+           [cdkDragData]="task">
+
+        <h4>{{task.title}}</h4>
+        <p>{{task.description}}</p>
+        <div class="task-actions">
+          <button (click)="moveToTodo(task)" class="move-btn" title="Move to Todo">←</button>
+          <button (click)="moveToDone(task)" class="move-btn" title="Move to Done">→</button>
+          <button (click)="editTask(task)">Edit</button>
+          <button (click)="deleteTask(task)" class="cross-btn">✕</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DONE -->
+    <div class="column"
+         id="done-list"
+         cdkDropList
+         [cdkDropListData]="doneTasks"
+          [cdkDropListConnectedTo]="['todo-list','inprogress-list']"
+         (cdkDropListDropped)="onDrop($event)">
+
+      <h3>Done</h3>
+
+      <div *ngFor="let task of doneTasks"
+           class="task-card"
+           cdkDrag
+           [cdkDragData]="task">
+
+        <h4>{{task.title}}</h4>
+        <p>{{task.description}}</p>
+        <div class="task-actions">
+          <button (click)="moveToInProgress(task)" class="move-btn" title="Move to In Progress">←</button>
+          <button (click)="editTask(task)">Edit</button>
+          <button (click)="deleteTask(task)" class="cross-btn">✕</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" *ngIf="showTaskModal">
+  <div class="modal-content">
+    <h2>{{ isEditMode ? 'Edit Task' : 'Add Task' }}</h2>
+
+    <input [(ngModel)]="taskForm.title" placeholder="Title" />
+    <textarea [(ngModel)]="taskForm.description" placeholder="Description"></textarea>
+
+    <select [(ngModel)]="taskForm.status">
+      <option value="todo">To Do</option>
+      <option value="inprogress">In Progress</option>
+      <option value="done">Done</option>
+    </select>
+
+    <button (click)="saveTask()">Save</button>
+    <button (click)="closeModal()">Cancel</button>
+  </div>
+</div>
